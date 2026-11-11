@@ -26,7 +26,7 @@ jobs:
       - name: Build and push frontend
         uses: docker/build-push-action@v6
         with:
-          context: .
+          context: ./frontend
           file: frontend/Dockerfile
           push: true
           tags: ${{secrets.DOCKER_USERNAME}}/moila-frontend:latest
@@ -35,14 +35,14 @@ jobs:
       - name: Build and push backend
         uses: docker/build-push-action@v6
         with:
-          context: .
+          context: ./back
           file: back/Dockerfile
           push: true
           tags: ${{secrets.DOCKER_USERNAME}}/moila-backend:latest
       - name: Build and push proxy
         uses: docker/build-push-action@v6
         with:
-          context: .
+          context: ./proxy
           file: proxy/Dockerfile
           push: true
           tags: ${{secrets.DOCKER_USERNAME}}/moila-proxy:latest
