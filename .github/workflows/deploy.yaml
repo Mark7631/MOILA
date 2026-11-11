@@ -13,7 +13,7 @@ jobs:
           fetch-depth: 0
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Install docker-compose
+      - name: Install docker compose
         run: |
           sudo apt-get update
           sudo apt-get install -y docker-compose
@@ -62,20 +62,20 @@ jobs:
         env:
           DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
         run: |
-          docker-compose --env-file .env.test up -d
+          docker compose --env-file .env.test up -d
           sleep 30
           for service in backend frontend proxy; do
-            if ! docker-compose -f compose.yaml ps --services --filter "status=running" | grep -q "^${service}$"; then
+            if ! docker compose -f compose.yaml ps --services --filter "status=running" | grep -q "^${service}$"; then
               echo "Error: ${service} container is not running"
-              docker-compose -f compose.yaml logs ${service}
-              docker-compose -f compose.yaml down --volumes
+              docker compose -f compose.yaml logs ${service}
+              docker compose -f compose.yaml down --volumes
               exit 1
             fi
           done
           curl -f http://localhost:80 || {
             echo "Error: Proxy HTTP endpoint not accessible"
-            docker-compose -f compose.yaml logs proxy
-            docker-compose -f compose.yaml down --volumes
+            docker compose -f compose.yaml logs proxy
+            docker compose -f compose.yaml down --volumes
             exit 1
           }
-          docker-compose -f compose.yaml down --volumes
+          docker compose -f compose.yaml down --volumes
