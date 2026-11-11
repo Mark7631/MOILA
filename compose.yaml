@@ -31,7 +31,7 @@ services:
       - moila_net
 
   backend:
-    image: ${secrets.DOCKER_USERNAME}/moila-backend:latest
+    image: ${DOCKER_USERNAME}/moila-backend:latest
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
@@ -66,7 +66,7 @@ services:
       - moila_net
 
   frontend:
-    image: ${secrets.DOCKER_USERNAME}/moila-frontend:latest
+    image: ${DOCKER_USERNAME}/moila-frontend:latest
     healthcheck:
       test: [ "CMD-SHELL", "wget -q --spider http://127.0.0.1/ || exit 1" ]
       interval: 10s
@@ -93,7 +93,7 @@ services:
       - moila_net
 
   proxy:
-    image: ${secrets.DOCKER_USERNAME}/moila-proxy:latest
+    image: ${DOCKER_USERNAME}/moila-proxy:latest
     ports:
       - "80:80"
     depends_on:
